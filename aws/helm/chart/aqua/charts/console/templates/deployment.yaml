@@ -1,0 +1,112 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-console
+  labels:
+    app: {{ .Release.Name }}-console
+    component: {{ .Release.Name }}-console
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.console.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-console
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-console
+      name: {{ .Release.Name }}-console
+    spec:
+      containers:
+      - name: console
+        image: "{{.Values.image}}"
+        imagePullPolicy: "{{.Values.imagePullPolicy}}"
+        env:
+          - name: SCALOCK_DBUSER
+            value: "postgres"
+          - name: G_ENTITLEMENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{.Values.reportingSecret}}
+                key: entitlement-id
+          - name: G_CONSUMER_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{.Values.reportingSecret}}
+                key: consumer-id
+          - name: G_REPORTING_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{.Values.reportingSecret}}
+                key: reporting-key
+          {{- if .Values.ExternalDBenabled }}
+          - name: SCALOCK_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.ExternalDBPassword }}
+                key: password
+          {{- else }}
+          - name: SCALOCK_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db-secret
+                key: password
+          {{- end }}
+          - name: ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-admin-pass
+                key: password
+          - name: SCALOCK_DBNAME
+            value: "scalock"
+          - name: AQUA_MARKETPLACE
+            value: "google"
+          - name: SCALOCK_DBHOST
+            {{ if .Values.ExternalDBenabled }}
+            value: {{ .Values.ExternalDBHost }}
+            {{ else }}
+            value: {{ .Release.Name }}-database-svc
+            {{ end }}
+          - name: SCALOCK_DBPORT
+            value: {{ default 5432 .Values.DBServicePort | quote }}
+          - name: SCALOCK_AUDIT_DBUSER
+            value: "postgres"
+          - name: SCALOCK_AUDIT_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db-secret
+                key: password
+          - name: SCALOCK_AUDIT_DBNAME
+            value: "slk_audit"
+          - name: SCALOCK_AUDIT_DBHOST
+            {{ if .Values.ExternalDBenabled }}
+            value: {{ .Values.ExternalDBHost }}
+            {{ else }}
+            value: {{ .Release.Name }}-database-svc
+            {{ end }}
+          - name: SCALOCK_AUDIT_DBPORT
+            value: {{ default 5432 .Values.DBServicePort | quote }}
+          - name: BATCH_INSTALL_NAME
+            value: {{ .Release.Name }}-enforcers
+          - name: BATCH_INSTALL_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-enforcer-token
+                key: password
+          - name: BATCH_INSTALL_GATEWAY
+            value: {{ .Release.Name }}-gateway
+        volumeMounts:
+          - mountPath: /var/run/docker.sock
+            name: docker-socket-mount
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+      volumes:
+        - name: docker-socket-mount
+          hostPath:
+            path: /var/run/docker.sock

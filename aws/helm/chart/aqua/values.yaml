@@ -1,0 +1,23 @@
+# Default values for aqua.
+# imageTag specifies the version number for all the Aqua components
+imageTag: "5.0"
+# imagePullPolicy specifies the pull policy for all the Aqua component containers
+imagePullPolicy: Always
+
+gate:
+  replicaCount: 1
+
+console:
+  replicaCount: 1
+
+ExternalDBenabled: false
+ssl: false
+#Specify the address of the external database.
+ExternalDBHost: 
+ExternalDBPassword:
+DBServicePort: 5432
+  # reporting secret
+  #reportingSecret: reporting-secret
+  #dbPassword: generatedPassword
+  #aquaToken: {{ randAlphaNum 20 | b64enc | quote }}
+

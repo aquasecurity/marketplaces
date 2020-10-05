@@ -1,0 +1,133 @@
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "{{ .Release.Name }}"
+  namespace: "{{ .Release.Namespace }}"
+  annotations:
+    kubernetes-engine.cloud.google.com/icon: >-
+      data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABzCAYAAACrQz3mAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABINJREFUeNrs3UtIVFEcBvA7PhKDjKggqDbVwh62SEqCUHPhJpUeLiLJCoJK2rTSdlGLHlBLbRdEtckSLAqk1B4EtihKeyyUEGxlYGNmpOn0nTyggsnMOHPv+f/v98Hh6sK5jx/fnTvXOTORWCzmMTqSwUNATMbBZM38JRKJqNvBof7tZqcaMU76dlDfjnRlfv1d5Nf6cuv6IuqbGQSkM81UBpmJxQ2Mw6E8zSqDvIlxKLTPmUogF2FxB+NAqC+AlEA2Y1TypYlsyMVY3A8rpJpmWsiHGLt500A25BJCKmgmIJdi0Yaxw2PkNpOQSpoJyJVYPMUoIKFgTAvZjrGFfIJPs4Bcg8VzQgpvpoXsxFhPNsHNBOQGQipo5gzI1eQS3ExA5hNSQTMBWWCvWleQSXAzAbmVkAowAWneO/OCkMIxLaS5RZdHGsGYgCzD4gkhhV8AWUjzb6xckghuJiD3EFJBMwFZ5U29ZyebFIIx73UfL/S8d6fx4yt1p7tI1rCX8edDKDDzWj/WHPvirRuu2lSusSHjLWXnvFX+v7EsIwBI8w5z8wblTJ4YBWMC8pSF5OwzyZgWspGHXDgmIOsJqQATkA1YXOKhFo4JyPNYXORhFv7SBJCmjfU8xIIxgWhmK1/FOMPDKxjTQoZm2rna50xAmpsATYQU3kwLGbpp5+qaSUglzQSkmXZ+F6OKh1IwpoUM7ecHqMEEpJl23oJRzkMoGNNCctq59AsgQJrZyo8IKbyZFpLTzqU3E5DLCamgmYDktHMNzSSkkmYCktPONTSTkEowAWmmnb8kpPDTrIU0jeS0cwXNJKS8fP0fJiHlQZYmdNOAcTL9BjJ7X3tv3DcNGCfTZyEH4r5pwMiBJKa89GDsnAuSmPIgywA5GPdNA8bJvMYomQ+SF0ByIMsBGU30pgHjVp7FC8lmup0OjApAjsb7B2ymm2lLFJKYbuYBRmWikMR0L60Y1YAcS+aPielOzNdE7k8WkphuQdYCcmIhD0LM4HM9FZB8aeIGZB0gY6l4MDYzuFxLJSSbGVwuA7Eh1Q/KZvqfC+mAZDP9z1lApu3TyojpX+oBeSWdKyCmPzEXOk3pXgmfM5VAspnpzSTGEUDe8muFxExPzN0cc1fntp8rnYWZ0/Pdt0/837g2b1vN56FOhZBjj392N1QVFr/xe8WzMCPjk5v9WnHOhDeCRZEyyHGM6iAgeQGU2vzC2Hsif1lrUBvA58zUQVYAsj3IjWAzF54fLkCymQvPMEY5ILtc2Bg2M/lEXYJkM5PPN4wyQHa7tFFsphJIYiYeM+18l4uQPM0mDlkKyF5XN5DNjC9mtnKJy5BsZvyQppEDrm8omzl/PkmBZDPnT4+9ah2UssFs5tx5Lw2SmHPHTDsvlgZJzLkhzS26qMSNJ+Z0OuypNSp1B3gBNA1p/o01Knkn2MypL9wRD8lmTn1+QDUgxzTsTJib2awJMsyYZtr5QU2QYcU0X9xaC8gJbTsWNkwz7fyoRsiwYf77/ABAxrTuYCQWi3kMm8kQkyEmQ8ww5a8AAwCH20kjn1l8pwAAAABJRU5ErkJggg==
+    marketplace.cloud.google.com/deploy-info: '{"partner_id": "aquasecurity-public", "product_id": "aqua-container-payg", "partner_name": "Aqua Security Software Inc."}'
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+spec:
+  descriptor:
+    type: AquaSecurity
+    version: "5.0.0"
+    description: |-
+      Aqua's Container Security Platform provides full visibility into container activity, allowing organizations to detect and prevent suspicious activity and attacks, providing transparent, automated security while helping to enforce policy and simplify regulatory compliance.
+      ## Support
+      [Email Aqua Support](mailto:support@aquasec.com?bcc=cloud.sales@aquasec.com&Subject=GKE%20Marketplace%20Support%20Question%20Customer%20ID&Body=Dear%20Aqua%20support,)
+
+
+    maintainers:
+    - name: Aqua Security
+      url: https://www.aquasec.com
+    links:
+    - description: Getting Started with Aqua Security for GKE
+      url: https://gcp-mktplace-docs.aquasec.com/     
+    notes:  |-
+      The marketplace deployer has automatically deployed the Aqua Platform and Aqua Enforcers in audit mode, however three basic steps are necessary to complete deployment:
+      ``` 
+      Obtain the administrator password
+      Obtain the Aqua Console URL
+      Enter the license token
+      Back up the db secret, admin pass and enforcer tokens
+      ```
+      
+      ### Obtain the Aqua Command Center administrator password
+      The default username is `administrator`. Use `kubectl` to get the generated password out of the secret.
+      ```shell
+      kubectl get secret {{ .Release.Name }}-admin-pass \
+      --namespace {{ .Release.Namespace }} \
+      --output=jsonpath='{.data.password}' | base64 --decode
+      ```
+
+      ### Obtain the Aqua Command Center portal information:
+      ```shell
+      SERVICE_IP=$(kubectl get svc {{ .Release.Name }}-console-svc \
+      --namespace {{ .Release.Namespace }} \
+      --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+      echo "http://${SERVICE_IP}:8080"
+      ```
+
+      ### Enter the license to enable the product
+      Users that have a license token for GKE Marketplace should enter it to enable the PAYG billing of Enforcers. If you do not have a license token, you may request one by filling out the form [here.](https://www.aquasec.com/aqua-signup/?type=marketplace-gke)
+
+      ### View logs of the Aqua Console
+      ```shell
+      SERVERPOD=$(kubectl get pods -l app={{ .Release.Name }}-console \
+      --namespace {{ .Release.Namespace }} --no-headers -o=custom-columns=NAME:.metadata.name)
+      kubectl logs -f ${SERVERPOD} --namespace={{ .Release.Namespace }}
+      ```
+      
+      ### Backup Auto-Generated Secrets
+      ```shell
+      kubectl get secrets -l secretType=aquaSecurity \
+      --namespace {{ .Release.Namespace }} -o json > aquaSecrets.json
+
+      ```
+     
+  info:
+  - name: Aqua Console Service
+    type: Reference
+    valueFrom:
+      serviceRef:
+        name: "{{ .Release.Name }}-console-svc"
+  selector:
+    matchLabels:
+        app.kubernetes.io/name: "{{ .Release.Name }}"
+  componentKinds:
+  - group: apps/v1
+    kind: Deployment
+  - group: v1
+    kind: Service
+  - group: apps/v1
+    kind: DaemonSet
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-db-secret"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+    secretType: aquaSecurity
+type: Opaque
+data:
+  password: "{{.Values.dbPassword}}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-enforcer-token"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+    secretType: aquaSecurity
+type: Opaque
+data:
+  password: "{{.Values.enforcerToken}}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-admin-pass"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+    secretType: aquaSecurity
+type: Opaque
+data:
+  password: "{{.Values.adminPassword}}"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ .Release.Name }}-database-pvc"
+spec:
+  storageClassName: "{{ .Values.ssdStorageClass }}"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+---

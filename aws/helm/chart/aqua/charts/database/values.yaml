@@ -1,0 +1,13 @@
+# Aqua Database component
+database:
+  servicePort: 5432
+  containerPort: 5432
+
+db:
+  ssl: false
+  auditssl: false
+  DBServicePort: 5432
+  ExternalDBenabled: false
+  #Specify the address of the external database.
+  ExternalDBHost: 
+  ExternalDBPassword:

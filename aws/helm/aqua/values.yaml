@@ -1,0 +1,20 @@
+global:
+# Please edit imageCredentials section to match the credentials that have been granted access to the Aqua private repository
+  imageCredentials:
+    registry: "779593258376.dkr.ecr.us-east-1.amazonaws.com"
+# imageTag overrides the version number for all the Aqua components
+  imageTag: "5.0.20261"
+  imagePullPolicy: "Always"
+#If ExternalDBHost is empty, an Aqua provided database will be created from the Helm chart. Otherwise specify the address of the external database.
+  ExternalDBHost:
+  dbUsername: "postgres"
+  dbPassword:
+  ssl: false
+#If external RDS is deployed, add the DB password here for secret creation
+  dbExternalPassword:
+# Overrides the database service port in the case an external database is in use
+  dbServicePort: "5432"
+# If aquaLicenseToken is empty, the system will prompt for a license upon first startup. Enter your Aqua license token here if you have one.
+  aquaLicenseToken: ""
+  awsRegion: 
+  aquaPassword:

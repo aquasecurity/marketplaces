@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-console-svc
+  labels:
+    app: {{ .Release.Name }}-console
+    component: {{ .Release.Name }}-console
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  ports:
+    - name: aqua-console
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    - name: aqua-console-ssl
+      port: 443
+      targetPort: 8443
+      protocol: TCP
+  selector:
+    app: {{ .Release.Name }}-console
+  type: LoadBalancer

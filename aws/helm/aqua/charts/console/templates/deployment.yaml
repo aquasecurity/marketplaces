@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-console
+  labels:
+    app: {{ .Release.Name }}-console
+    component: {{ .Release.Name }}-console
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.console.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-console
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-console
+      name: {{ .Release.Name }}-console
+    spec:
+      serviceAccount: aqua-sa
+      containers:
+      - name: console
+        image: "{{ .Values.global.imageCredentials.registry }}/marketplace-console:{{ .Values.global.imageTag }}"
+        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+        env:
+          - name: ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-admin-password
+                key: password
+          - name: AQUA_MARKETPLACE
+            value: "AWS-ECS-PAYG"
+          - name: AWS_REGION
+            value: {{ .Values.global.awsRegion }}
+          - name: BATCH_INSTALL_GATEWAY
+            value: {{ .Release.Name }}-gateway
+          - name: BATCH_INSTALL_NAME
+            value: "EKS"
+          - name: BATCH_INSTALL_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{.Release.Name}}-enforcer-token
+                key: token
+          - name: SCALOCK_DBUSER
+            value: {{ .Values.global.dbUsername }}
+          - name: SCALOCK_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{.Release.Name}}-database-password
+                key: password
+          - name: SCALOCK_DBNAME
+            value: "scalock"
+          - name: SCALOCK_DBHOST
+            {{ if .Values.global.ExternalDBHost }}
+            value: {{ .Values.global.ExternalDBHost }}
+            {{ else }}
+            value: {{ .Release.Name }}-database-svc
+            {{ end }}
+          - name: SCALOCK_LOG_LEVEL
+            value: DEBUG
+          - name: SCALOCK_DBPORT
+            value: {{ default 5432 .Values.global.dbServicePort | quote }}
+          - name: SCALOCK_AUDIT_DBUSER
+            value: {{ .Values.global.dbUsername }}
+          - name: SCALOCK_AUDIT_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{.Release.Name}}-database-password
+                key: password
+          - name: SCALOCK_AUDIT_DBNAME
+            value: "slk_audit"
+          - name: SCALOCK_AUDIT_DBHOST
+            {{ if .Values.global.ExternalDBHost }}
+            value: {{ .Values.global.ExternalDBHost }}
+            {{ else }}
+            value: {{ .Release.Name }}-database-svc
+            {{ end }}
+          - name: SCALOCK_AUDIT_DBPORT
+            value: {{ default 5432 .Values.global.dbServicePort | quote }}
+          - name: LICENSE_TOKEN
+            {{ if .Values.global.aquaLicenseToken }}
+            value: {{ .Values.global.aquaLicenseToken }}
+            {{ else }}
+            value: {{ default "" }}
+            {{ end }}
+        volumeMounts:
+          - mountPath: /var/run/docker.sock
+            name: docker-socket-mount
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+      volumes:
+        - name: docker-socket-mount
+          hostPath:
+            path: /var/run/docker.sock

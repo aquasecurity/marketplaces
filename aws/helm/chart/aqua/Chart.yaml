@@ -1,0 +1,13 @@
+apiVersion: v2
+description: Secure your container deployment
+name: aqua
+version: 5.0
+home: aquasec.com
+keywords:
+- aqua
+- container
+- security
+- least privilege
+maintainers:
+- email: ops@aquasec.com
+  name: DevOps

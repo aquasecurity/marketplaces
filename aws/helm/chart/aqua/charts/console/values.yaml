@@ -1,0 +1,8 @@
+# console is the Aqua Server component
+# GCP requires one base image at root of GCR. Console will not be labled with console in GCR but places at the root of GCR and labeled as such: "aqua-security:5.0".
+server:
+  servicePort: 8080
+  containerPort: 8080
+
+console:
+  replicaCount: 1

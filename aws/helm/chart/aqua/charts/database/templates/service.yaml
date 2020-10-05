@@ -1,0 +1,20 @@
+{{ if .Values.db.ExternalDBenabled }}
+{{ else }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-database-svc
+  labels:
+    app: {{ .Release.Name }}-database
+    component: {{ .Release.Name }}-database
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: {{ .Release.Name }}-database
+{{ end }}

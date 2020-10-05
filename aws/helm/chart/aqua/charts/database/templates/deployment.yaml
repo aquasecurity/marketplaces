@@ -1,0 +1,46 @@
+---
+{{ if .Values.db.ExternalDBenabled }}
+{{ else }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-database
+  labels:
+    app: {{ .Release.Name }}-database
+    component: {{ .Release.Name }}-database
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-database
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-database
+      name: {{ .Release.Name }}-database
+    spec:
+      containers:
+      - name: db
+        image: "{{ .Values.image }}"
+        imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+        env:
+          - name: PGDATA
+            value: "/var/lib/postgresql/data/db-files"
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db-secret
+                key: password
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: "{{ .Release.Name }}-database-vol"
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+      volumes:
+        - name: "{{ .Release.Name }}-database-vol"
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-database-pvc"
+{{ end }}
