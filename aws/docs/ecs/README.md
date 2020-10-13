@@ -70,5 +70,14 @@ Please note the Aqua console URL from the CloudFormation Stack output above and 
 
 If you already have one, input the Aqua license or obtain the license by filling out the form linked on the Aqua Console startup portal. You can simply reach out to us at [cloudsales@aquasec.com](mailto:cloudsales@aquasec.com) and we’ll create one for you.<br /><br />
 
+## Step 5: Scaling out Enforcers
+
+### Within the cluster
+Aqua Enforcers are deployed as a Daemon type of ECS Service on the ECS cluster. When you scale out your cluster, the Enforcers will automatically scale out with it and get registered with the Aqua console.
+
+### Registering new ECS clusters
+For guidance on registering additional Aqua Enforcers for new Amazon ECS clusters, please refer to [this](pages/adding-more-enforcers.md)
+
+
 ---
 Visit [aquasec.com](https://www.aquasec.com/) to learn more.
