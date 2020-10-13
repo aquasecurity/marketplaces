@@ -2,7 +2,7 @@
 
 ## Overview
 Please note that this deployment scenario provides a starter environment that includes a database container for Postgres, leveraging a persistent volume to store data. This architecture is not scalable or resilient enough for production workloads, but extremely useful for evaluation.
-![Deployment Scenario 1](https://github.com/aquasecurity/marketplaces/blob/master/aws/images/Deployment_Scenario1.png)
+![Deployment Scenario 1](../../../images/Deployment_Scenario1.png)
 
 ## Step 1: Configure Your EKS cluster
 Aqua can easily be launched into an existing EKS environment or you can [spin up a new one](#create-a-new-EKS-cluster). using [https://eksctl.io/]. 
@@ -19,37 +19,81 @@ kubectl get nodes
 ```
 
 ## Step 2: Create a Service account with EKS IAM permissions
-Download and configure the [helper_script](https://github.com/aquasecurity/marketplaces/blob/master/aws/scripts/helper_script.sh). 
-<br>This script supports the following parameters:
+Download and configure the [helper_script](../../../scripts/helper_script.sh). 
+
+```shell
+wget https://aqua-security-public.s3.amazonaws.com/helper_script.sh
+```
+
+Configure the script for the following parameters, by downloading and editing the file:
 
 <table>
 	<tr>
-		<th width="33%"><strong>Parameter</strong></th>
-		<th width="600px"><strong>Description</strong></th>
+		<th width="23%"><strong>Parameter</strong></th>
+        <th width="25%"><strong>Default value</strong></th>
+		<th width="52%"><strong>Description</strong></th>
 	</tr>
 	<tr>
 		<td>ClusterName</td>
-		<td>The name of your EKS Cluster (set to "aqua-cluster" by default). Please note, the name must be all lowercase.</td>
+        <td>aqua-cluster</td>
+		<td>The name of your EKS Cluster. Please note, the name must be all lowercase.</td>
 	</tr>
 	<tr>
 		<td>AWSRegion</td>
-		<td>The AWS Region of your EKS Cluster (set to "us-east-1" by default). Please note, the name must be all lowercase.</td>
+        <td>us-east-1</td>
+		<td>The AWS Region of your EKS Cluster. Please note, the name must be all lowercase.</td>
 	</tr>
 	<tr>
 		<td>ProfileName</td>
-		<td>The name of your AWS profile set in the local $HOME/.aws/config file used by AWS CLI (set to "default" by default). Please note, the name must be all lowercase.</td>
+        <td>default</td>
+		<td>The name of your AWS profile set in the local $HOME/.aws/config file used by AWS CLI. Please note, the name must be all lowercase.</td>
 	</tr>
 	<tr>
-		<td>ClusterName</td>
-		<td>The name of your stack (set to "solodev-cms" by default). Please note, the name must be all lowercase.</td>
+		<td>DBPassword</td>
+        <td></td>
+		<td>The password for the Aqua RDS Database for your deployment.</td>
+	</tr>
+	<tr>
+		<td>AquaPassword</td>
+        <td></td>
+		<td>The administrator password for your Aqua Web Console.</td>
 	</tr>
 </table>
 
+```shell
+export CLUSTER_NAME='aqua-cluster'
+export AWS_PROFILE='default'
+export AWS_REGION='us-east-1'
+export AQUA_PASSWORD=''
 
-## Step 3: Deploy Aqua platform using Helm
+# This parameter has to be populated for containerized PostGres DB Deployment
+export DB_PASSWORD=''
+
+```
+
+### Execute the script for IAM setup
+This script helps you set up the required IAM permissions required by Aqua Platform to run smoothly on Amazon EKS. 
+```shell
+chmod +x helper_script.sh
+./helper_script.sh init
+
+```
+
+## Step 3: Deploy the Aqua Enterprise platform
+
+### Deploy using the helper_script
+In addition, the script also helps you install the Aqua platform using Helm Charts.
+
+```shell
+./helper_script.sh install_aqua
+```
+
+### Deploy using manual Helm commands
+If you would rather deploy Aqua yourself using Helm commands, use the following instructions.
 The Aqua Helm chart exposes certain configuration values for tweaking the deployment to your needs. 
 ```shell
-git clone https://github.com/aquasecurity/aws-marketplace-eks-byol.git
+wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
+tar -xvf aqua.tar
 
 helm install --namespace aqua csp ./aqua \
 			 --set global.awsRegion=<aws_region_for_eks> \
@@ -59,7 +103,7 @@ helm install --namespace aqua csp ./aqua \
 ## Step 4: Launch Aqua console
 Obtain the Aqua console URL by running the following command
 ```shell
-AQUA_CONSOLE=$(kubectl get svc csp-aqua-console --namespace aqua -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+AQUA_CONSOLE=$(kubectl get svc csp-console-svc --namespace aqua -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
   
 ECHO "http://$AQUA_CONSOLE:8080"
 ```
@@ -67,7 +111,7 @@ ECHO "http://$AQUA_CONSOLE:8080"
 Please note the Aqua console URL above and navigate to the Aqua console in your favorite browser.
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/aqua-console-aws-payg.gif" /></td>
+		<td><img src="../../../images/aqua-console-aws-payg.gif" /></td>
 	</tr>
 </table>
 

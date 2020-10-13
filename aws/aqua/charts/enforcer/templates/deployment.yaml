@@ -29,6 +29,10 @@ spec:
               secretKeyRef:
                 name: {{ .Release.Name }}-enforcer-token
                 key: token
+          - name: AWS_REGION
+            value: {{ .Values.global.awsRegion }}
+          - name: AQUA_MARKETPLACE
+            value: "AWS-ECS-PAYG"
           - name: AQUA_SERVER
             value: {{ .Release.Name }}-aqua-gateway
           - name: AQUA_LOGICAL_NAME

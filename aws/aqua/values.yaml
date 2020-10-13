@@ -1,9 +1,9 @@
 global:
 # Please edit imageCredentials section to match the credentials that have been granted access to the Aqua private repository
   imageCredentials:
-    registry: "779593258376.dkr.ecr.us-east-1.amazonaws.com"
+    registry: "117940112483.dkr.ecr.us-east-1.amazonaws.com/edf919e4-8177-4de8-985c-b97c8b7ce8f3/04bdc721-9975-46dc-a85d-83731a60e167/250256720782.dkr.ecr.us-east-1.amazonaws.com"
 # imageTag overrides the version number for all the Aqua components
-  imageTag: "5.0.20230"
+  imageTag: "5.0-latest"
   imagePullPolicy: "Always"
 #If dbExternalServiceHost is empty, an Aqua provided database will be created from the Helm chart. Otherwise specify the address of the external database.
   dbExternalServiceHost:

@@ -27,7 +27,7 @@ spec:
                 name: {{.Release.Name}}-admin-password
                 key: password
           - name: AWS_REGION
-            value: {{ .Values.aqua.awsRegion }}
+            value: {{ .Values.global.awsRegion }}
           - name: AQUA_MARKETPLACE
             value: "AWS-ECS-PAYG"
           - name: BATCH_INSTALL_GATEWAY
@@ -40,7 +40,7 @@ spec:
                 name: {{.Release.Name}}-enforcer-token
                 key: token
           - name: SCALOCK_DBUSER
-            value: {{ .Values.database.dbUsername }}
+            value: {{ .Values.global.dbUsername }}
           - name: SCALOCK_DBPASSWORD
             valueFrom:
               secretKeyRef:
@@ -49,15 +49,15 @@ spec:
           - name: SCALOCK_DBNAME
             value: "scalock"
           - name: SCALOCK_DBHOST
-            {{ if .Values.database.dbExternalServiceHost }}
-            value: {{ .Values.database.dbExternalServiceHost }}
+            {{ if .Values.global.dbExternalServiceHost }}
+            value: {{ .Values.global.dbExternalServiceHost }}
             {{ else }}
             value: {{ .Release.Name }}-aqua-database
             {{ end }}
           - name: SCALOCK_DBPORT
-            value: {{ default 5432 .Values.database.dbServicePort | quote }}
+            value: {{ default 5432 .Values.global.dbServicePort | quote }}
           - name: SCALOCK_AUDIT_DBUSER
-            value: {{ .Values.database.dbUsername }}
+            value: {{ .Values.global.dbUsername }}
           - name: SCALOCK_AUDIT_DBPASSWORD
             valueFrom:
               secretKeyRef:
@@ -66,13 +66,13 @@ spec:
           - name: SCALOCK_AUDIT_DBNAME
             value: "slk_audit"
           - name: SCALOCK_AUDIT_DBHOST
-            {{ if .Values.database.dbExternalServiceHost }}
-            value: {{ .Values.database.dbExternalServiceHost }}
+            {{ if .Values.global.dbExternalServiceHost }}
+            value: {{ .Values.global.dbExternalServiceHost }}
             {{ else }}
             value: {{ .Release.Name }}-aqua-database
             {{ end }}
           - name: SCALOCK_AUDIT_DBPORT
-            value: {{ default 5432 .Values.database.dbServicePort | quote }}
+            value: {{ default 5432 .Values.global.dbServicePort | quote }}
           - name: LICENSE_TOKEN
             {{ if .Values.aqua.aquaLicenseToken }}
             value: {{ .Values.aqua.aquaLicenseToken }}

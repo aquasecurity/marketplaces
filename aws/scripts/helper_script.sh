@@ -1,102 +1,57 @@
 #!/bin/bash
 args=("$@")
 
-#Config
-export KUBECONFIG="eksconfig"
+export CLUSTER_NAME='aqua-cluster'
+export AWS_PROFILE='default'
+export AWS_REGION='us-east-1'
+export AQUA_PASSWORD=''
 
-#GET VALUES FROM CLOUDFORMATION OUTPUT OF EKS STACK
-export EKSClusterName=""
-export SysOpsAdminRoleArn=""
+# These parameters need to be populated when using Amazon RDS Database for the Aqua platform deployment
+export RDS_ENDPOINT=''
+export RDS_PASSWORD=''
 
-#AWS
-export REGION="us-east-1"
-export USER_ARN=""
-export KEY="server.pem"
-export BASTION="1.1.1.1"
-#aws configure --profile profile1
-export AWS_PROFILE="profile1"
+# This parameter has to be populated for containerized PostGres DB Deployment
+export DB_PASSWORD=''
 
-#Solodev
-export RELEASE="solodev-dcx-aws"
-export NAMESPACE="solodev-dcx"
-export SECRET="BigSecret123"
-export PASSWORD="password"
-export DBPASSWORD="password"
 
-#ADMIN
-info(){
-    kubectl --kubeconfig=$KUBECONFIG get pods -n kube-system
-}
-
-proxy(){
-    token
-    kubectl --kubeconfig=$KUBECONFIG port-forward -n kubernetes-dashboard service/kubernetes-dashboard 8080:80
-}
-
-token(){
-    kubectl --kubeconfig=$KUBECONFIG -n kube-system describe secret $(kubectl --kubeconfig=$KUBECONFIG -n kube-system get secret | grep eks-admin | awk '{print $1}')
-}
-
-ls(){
-    kubectl --kubeconfig=$KUBECONFIG get pods --all-namespaces   
-}
-
-install(){
-    NAME="${args[1]}"
-    helm --kubeconfig $KUBECONFIG install --namespace ${NAMESPACE} --name ${NAME} charts/${RELEASE} --set solodev.settings.appSecret=${SECRET} --set solodev.settings.appPassword=${PASSWORD} --set solodev.settings.dbPassword=${DBPASSWORD}
-}
-
-delete(){
-    NAME="${args[1]}"
-    helm --kubeconfig $KUBECONFIG del --purge ${NAME}
-    kubectl --kubeconfig $KUBECONFIG delete --namespace ${NAME} --all pvc
-}
-
-#UTILS
-update(){
-    helm --kubeconfig $KUBECONFIG repo add charts 'https://raw.githubusercontent.com/techcto/charts/master/'
-    helm --kubeconfig $KUBECONFIG repo update
-    helm --kubeconfig $KUBECONFIG repo list
-}
-
-clean(){
-    NAME="${args[1]}"
-    kubectl --kubeconfig $KUBECONFIG delete --all daemonsets,replicasets,statefulsets,services,ingress,deployments,pods,rc,configmap --namespace=${NAME} --grace-period=0 --force
-    kubectl --kubeconfig $KUBECONFIG delete --namespace ${NAME} --all pvc,pv
-}
 
 #INIT
 init(){
-    initConfig
-    helm --kubeconfig $KUBECONFIG init
-    helm --kubeconfig $KUBECONFIG repo add charts 'https://raw.githubusercontent.com/techcto/charts/master/'
+    echo "Inside Init function"
+    echo "CLUSTER NAME: ${CLUSTER_NAME}"
+    echo "AWS PROFILE: ${AWS_PROFILE}"
+    eksctl utils associate-iam-oidc-provider --cluster $CLUSTER_NAME --approve --profile $AWS_PROFILE
+    eksctl create iamserviceaccount --name aqua-sa --namespace aqua --cluster $CLUSTER_NAME --attach-policy-arn arn:aws:iam::aws:policy/AWSMarketplaceMeteringRegisterUsage --approve --profile $AWS_PROFILE
 }
 
-initConfig(){
-    addTrustPolicy
-    echo "Sleep for 30 seconds"
-    sleep 30
-    echo "aws eks --region $REGION update-kubeconfig --name $EKSClusterName --role-arn $SysOpsAdminRoleArn --kubeconfig $KUBECONFIG"
-    aws eks --region $REGION update-kubeconfig --name $EKSClusterName --role-arn $SysOpsAdminRoleArn --kubeconfig $KUBECONFIG
-}
+helm(){
+    echo "Deploying Helm chart for Aqua Enterprise Platform"
 
-addTrustPolicy(){
-    if [ "$USER_ARN" != "" ]; then
-        ROLE_NAME=$(echo $SysOpsAdminRoleArn | awk -F/ '{print $NF}')
-        aws iam get-role --role-name ${ROLE_NAME} --profile ${AWS_PROFILE} > role-trust-policy.json
-        POLICY='{
-        "Effect": "Allow",
-        "Principal": {
-            "AWS": "'${USER_ARN}'"
-        },
-        "Action": "sts:AssumeRole"
-        }'
-        jq --argjson obj "${POLICY}" '.Role.AssumeRolePolicyDocument.Statement += [$obj] | .Role.AssumeRolePolicyDocument' role-trust-policy.json > output-policy.json
-        aws iam update-assume-role-policy --role-name ${ROLE_NAME} --policy-document file://output-policy.json --profile ${AWS_PROFILE}
+    echo $AWS_REGION
+    echo $AQUA_PASSWORD
+    echo $RDS_ENDPOINT
+    echo $RDS_PASSWORD
+    echo $DB_PASSWORD
+
+    echo "Cloning the Git repo for Aqua helm charts..."
+#    git clone https://github.com/aquasecurity/aws-marketplace-eks-byol.git
+    wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
+    tar -xvf aqua.tar
+
+    echo "Install Aqua Platform using Helm..."
+    if [ $RDS_ENDPOINT ];
+    then
+    helm install --namespace aqua csp ./aqua \
+			 --set global.awsRegion=$AWS_REGION \
+            --set global.dbExternalServiceHost=$RDS_ENDPOINT \
+			 --set global.dbExternalPassword=$RDS_PASSWORD \
+			 --set global.aquaPassword=$AQUA_PASSWORD
+    else
+    helm install --namespace aqua csp ./aqua \
+			 --set global.awsRegion=$AWS_REGION \
+			 --set global.dbPassword=$DB_PASSWORD \
+			 --set global.aquaPassword=$AQUA_PASSWORD
     fi
 }
 
-ssh(){
-    HOST="${args[1]}"
-    echo "ssh -i $KEY  ec2-user@$HOST -o \"proxycommand ssh -W %h:%p -i ${KEY} ec2-user@${BASTION}\""
-}
+$*

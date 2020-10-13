@@ -6,7 +6,7 @@ The only pre-requisite for the deployment is having an OpenShift cluster registe
 
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/redhat/images/install-operator-new.gif" width="100%"/></td>
+		<td><img src="../images/install-operator-new.gif" width="100%"/></td>
     </tr>
 </table>
 
@@ -14,7 +14,7 @@ The only pre-requisite for the deployment is having an OpenShift cluster registe
 Once the operator is installed, leverage the ```Cluster console``` button on the Red Hat Marketplace console to navigate to the OpenShift cluster. Make sure you have selected the ```aqua``` project in the drop-down. In the ```Installed Operators``` tab, you can see that the operator has been installed successfully. 
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/redhat/images/operator-install.png" /></td>
+		<td><img src="../images/operator-install.png" /></td>
 	</tr>
 </table>
 

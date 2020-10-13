@@ -1,39 +1,47 @@
 ## Aqua for Amazon ECS
 
-![Aqua platform](https://github.com/aquasecurity/marketplaces/blob/master/images/aqua-platform.png)
+Check out the video to learn how to deploy Aqua Enterprise platform on an ECS cluster via the AWS marketplace.
+<div align="center">
+  <a target="_blank" href="https://www.youtube.com/watch?v=WtgAxMGvtIQ"><img src="https://img.youtube.com/vi/WtgAxMGvtIQ/0.jpg" alt="IMAGE ALT TEXT"></a>
+</div>
 
->Note: For guidance on registering additional Aqua Enforcers for Amazon ECS, please refer to [this](https://github.com/aquasecurity/marketplaces/blob/master/aws/docs/ecs/pages/adding-more-enforcers.md)
+>Note: For guidance on registering additional Aqua Enforcers for Amazon ECS, please refer to [this](pages/adding-more-enforcers.md)
+
+![Aqua platform](../../images/aws-aqua-platform.png)
 
 ## Step 1: Subscribe on the AWS Marketplace
-Before launching one of our products, you'll first need to subscribe to Aqua enterprise platform on the <a href="https://aws.amazon.com/marketplace/pp/B07KJKMNR8">AWS Marketplace.</a> Click the button below to get started:
+Before launching one of our products, you'll first need to subscribe to Aqua Enterprise platform on the <a target="_blank" href="https://aws.amazon.com/marketplace/pp/B07KJKMNR8">AWS Marketplace.</a> Click the button below to get started:
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/ecs-payg-2.gif" /></td>
+		<td><img src="../../images/aws-ecs-payg.gif" /></td>
 	</tr>
 </table>
 <table>
 	<tr>
-		<td width="40%"><a href="https://aws.amazon.com/marketplace/pp/B07KJKMNR8"><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/aws-marketplace.png" /></a></td>
+		<td width="40%"><a target="_blank" href="https://aws.amazon.com/marketplace/pp/B07KJKMNR8"><img src="../../images/aws-marketplace.png" /></a></td>
 		<td>
-			<h3>Aqua platform on AWS Marketplace</h3>
-			<p>As an Advanced APN member and Container Competency technology partner, Aqua platform provides the most complete security solutions to protect workloads running on Amazon ECS, EKS, AWS Fargate and AWS Lambda. Subscribe now to secure the environment of your choosing.
+			<h3>Aqua Enterprise platform on AWS Marketplace</h3>
+			<p>Subscribe now and check out our 30-day FREE TRIAL to secure the environment of your choosing TODAY!!
 			</p>
-			<p align="right"><a href="https://aws.amazon.com/marketplace/pp/B07KJKMNR8"><img src="https://github.com/aquasecurity/marketplaces/blob/master/images/launch-logo.png" width="200" /></a></p>
+			<p align="right"><a target="_blank" href="https://aws.amazon.com/marketplace/pp/B07KJKMNR8"><img src="../../../images/launch-logo.png" width="200" /></a></p>
 		</td>
 	</tr> 
 </table>
 
 ## Step 2: Configure your ECS cluster
-Aqua platform can be easily launched into your existing ECS cluster or you can create a new one from the AWS console. The self-hosted Aqua platform needs at least 2 ECS instances and an ECS agent with version 1.30.0 or above. For high availability, you must deploy Aqua across 2 availability zones (AZs) and leverage a managed database solution like Amazon RDS for PostgreSQL database.
+Aqua Enterprise platform can be easily launched into your existing ECS cluster or you can create a new one from the AWS console. The self-hosted Aqua platform needs:
+* At least 2 ECS instances 
+* An ECS agent with version 1.30.0 or above. 
 
-## Step 3: Launch Aqua enterprise platform using CloudFormation
+For high availability, you must deploy Aqua across 2 availability zones (AZs) and leverage a managed database solution like Amazon RDS for PostgreSQL database.
+
+## Step 3: Launch Aqua Enterprise platform using CloudFormation
 <table>
 	<tr>
-		<td width="25%"><a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/review?templateURL=https:%2F%2Fs3.amazonaws.com%2Faqua-security-public%2Faqua-security-ecs-payg.template&stackName=AquaSecurityEcsPayg"><img src="https://github.com/aquasecurity/marketplaces/blob/master/images/aqua-logo.png" width="250"/></a></td>
+		<td width="25%"><a target="_blank" href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/review?templateURL=https:%2F%2Fs3.amazonaws.com%2Faqua-security-public%2Faqua-security-ecs-payg.template&stackName=AquaSecurityEcsPayg"><img src="../../../images/aqua-logo.png" width="250"/></a></td>
 		<td>
-			<h3>Aqua in a box</h3>
-			<p>Launch Aqua platform in a new or existing EKS cluster and run your artifacts, hosts and workloads securely with Aqua. Well-suited for non-production deployments, it allows you to hit the ground running while providing a sneak peak int Aqua's full-blown cloud-native security capabilities. Architected as a microservices application, the Aqua platform is outputted as containers in the form of Kubernetes-native deployments, launched within a namespace. </p>
-			<p align="right"><a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/review?templateURL=https:%2F%2Fs3.amazonaws.com%2Faqua-security-public%2Faqua-security-ecs-payg.template&stackName=AquaSecurityEcsPayg"><img src="https://github.com/aquasecurity/marketplaces/blob/master/images/launch-logo.png" width="200" /></a></p>
+			<p>Launch Aqua Enterprise platform in a new or existing ECS cluster via easy-button deployment leveraging AWS CloudFormation template and a managed Amazon RDS Database. </p>
+			<p align="right"><a target="_blank" href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/review?templateURL=https:%2F%2Fs3.amazonaws.com%2Faqua-security-public%2Faqua-security-ecs-payg.template&stackName=AquaSecurityEcsPayg"><img src="../../../images/launch-logo.png" width="200" /></a></p>
 		</td>
 	</tr>
 </table>
@@ -41,14 +49,14 @@ Aqua platform can be easily launched into your existing ECS cluster or you can c
 ### CloudFormation Stack parameters
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/rds-cft-parameters.jpg" /></td>
+		<td><p align="center" ><img src="../../images/rds-cft-parameters.jpg" /></p></td>
 	</tr>
 </table>
 
 ### CloudFormation Stack output
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/rds-cft-output.jpg" /></td>
+		<td><img src="../../images/rds-cft-output.jpg" /></td>
 	</tr>
 </table>
 
@@ -56,7 +64,7 @@ Aqua platform can be easily launched into your existing ECS cluster or you can c
 Please note the Aqua console URL from the CloudFormation Stack output above and navigate to the Aqua console in your favorite browser.
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/aqua-console-aws-payg.gif" /></td>
+		<td><img src="../../images/aqua-console-aws-payg.gif" /></td>
 	</tr>
 </table>
 

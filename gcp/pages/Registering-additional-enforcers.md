@@ -1,5 +1,6 @@
 ## Adding more Enforcers to Aqua platform for GKE
 This guide only deals with registering additional <b>GKE clusters</b> with your already deployed Aqua platform. 
+For installation instructions check [this](../README.md) out.
 
 >NOTE: We currently support Aqua versions 4.6 and above only
 
@@ -8,17 +9,17 @@ Before launching one of our products, you'll first need to subscribe to Aqua ent
 
 <table>
 	<tr>
-		<td width="40%"><a href="https://console.cloud.google.com/marketplace/details/aquasecurity-public/aqua-security-payg?q=aqua&project=lexical-ellipse-195321"><img src="https://github.com/aquasecurity/marketplaces/blob/master/gcp/images/gcp-marketplace.jpg" /></a></td>
+		<td width="40%"><a href="https://console.cloud.google.com/marketplace/details/aquasecurity-public/aqua-security-payg?q=aqua&project=lexical-ellipse-195321"><img src="../images/gcp-marketplace.jpg" /></a></td>
 		<td>
 			<h3>Aqua platform on GCP Marketplace</h3>
 			<p>As a Google Cloud technology partner, Aqua platform provides the most complete security solutions to protect workloads running on GKE clusters. We provide wide support across various deployment environments like GKE on-prem as well as hybrids like Google Anthos.
 			</p>
-			<p align="right"><a href="https://console.cloud.google.com/marketplace/details/aquasecurity-public/aqua-security-payg?q=aqua&project=lexical-ellipse-195321"><img src="https://github.com/aquasecurity/marketplaces/blob/master/images/launch-logo.png" width="200" /></a></p>
+			<p align="right"><a href="https://console.cloud.google.com/marketplace/details/aquasecurity-public/aqua-security-payg?q=aqua&project=lexical-ellipse-195321"><img src="../../images/launch-logo.png" width="200" /></a></p>
 		</td>
 	</tr> 
 </table>
 
-For the installation instructions check [this](https://github.com/aquasecurity/marketplaces/blob/master/gcp).
+For the installation instructions check [this](../README.md).
 
 ## Step 2: Gather the required information
 Since you already have Aqua installed in your GKE environment, you can easily register additional GKE environments with the same environment, by leveraging Aqua Enforcers. 
@@ -106,17 +107,17 @@ aquactl deploy enforcer --version <aqua_version> --gateway <gateway_url>
 ```
 
 Here's a screenshot of the installation
-![GCP enforcer](https://github.com/aquasecurity/marketplaces/blob/master/gcp/images/gke-enforcer.png)
+![GCP enforcer](../images/gke-enforcer.png)
 
 ## Step 5: Verify in the Aqua Console
 Please navigate to the Aqua console in your favorite browser and follow the steps:
 
 ### Create an Enforcer Group
 In the console, go to the <b>Enforcers</b> tab and click on ```Add Enforcer Group```. 
-![Enforcer group](https://github.com/aquasecurity/marketplaces/blob/master/aws/images/enforcer-group.png)
+![Enforcer group](../../aws/images/enforcer-group.png)
 
 Add in the relevant details and make sure to <b>check all the security settings</b> before clicking on ```Create Group```
-![Enforcer group creation](https://github.com/aquasecurity/marketplaces/blob/master/gcp/images/create-group.png)
+![Enforcer group creation](../images/create-group.png)
 
 ### Approve the Enforcers
 Navigate back to the Enforcers tab, and you will see that Aqua has discovered the new Enforcers running in the new GKE Cluster. Select all and click on Approve.

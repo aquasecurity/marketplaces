@@ -183,19 +183,19 @@ status:
 ### CloudFormation Stack parameters
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/rds-cft-parameters.jpg" /></td>
+		<td><img src="https://github.com/manasiprabhavalkar/marketplaces/blob/master/aws/images/rds-cft-parameters.jpg" /></td>
 	</tr>
 </table>
 
 ### CloudFormation Stack output
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/rds-cft-output.jpg" /></td>
+		<td><img src="https://github.com/manasiprabhavalkar/marketplaces/blob/master/aws/images/rds-cft-output.jpg" /></td>
 	</tr>
 </table>
 
 ## Step 3: Create a Service account with EKS IAM permissions
-Download and configure the [helper_script](https://github.com/aquasecurity/marketplaces/blob/master/aws/scripts/helper_script.sh). 
+Download and configure the [helper_script](https://github.com/manasiprabhavalkar/marketplaces/blob/master/aws/scripts/helper_script.sh). 
 <br>This script supports the following parameters:
 
 <table>
@@ -249,7 +249,7 @@ ECHO "http://$AQUA_CONSOLE:8080"
 Please note the Aqua console URL above and navigate to the Aqua console in your favorite browser.
 <table>
 	<tr>
-		<td><img src="https://github.com/aquasecurity/marketplaces/blob/master/aws/images/aqua-console-aws-payg.gif" /></td>
+		<td><img src="https://github.com/manasiprabhavalkar/marketplaces/blob/master/aws/images/aqua-console-aws-payg.gif" /></td>
 	</tr>
 </table>
 
