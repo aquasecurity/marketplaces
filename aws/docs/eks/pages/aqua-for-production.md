@@ -1,7 +1,9 @@
 # Launch Aqua platform for production-ready EKS environment
 
 ## Overview
-A production-grade Aqua platform deployment requires a managed Postgres database installation like Amazon RDS. Click here for RDS requirements. This is a highly scalable and resilient architecture recommended for production workloads.
+A <b><i>production-grade</i></b> Aqua platform deployment requires a <b>managed Postgres database</b> installation like Amazon RDS. This is a highly scalable and resilient architecture recommended for production workloads.
+
+Just follow these <b>5 SIMPLE STEPS</b> to get up and running.
 ![Deployment Scenario 2](../../../images/Deployment_Scenario2.png)
 
 ## Step 1: Configure Your EKS cluster
@@ -109,18 +111,16 @@ chmod +x helper_script.sh
 
 ```
 
-## Step 3: Deploy the Aqua Enterprise platform
+## Step 4: Deploy the Aqua Enterprise platform
 
 ### Deploy using the helper_script
-In addition, the script also helps you install the Aqua platform using Helm Charts.
 
 ```shell
 ./helper_script.sh install_aqua
 ```
 
 ### Deploy using manual Helm commands
-If you would rather deploy Aqua yourself using Helm commands, use the following instructions.
-The Aqua Helm chart exposes certain configuration values for tweaking the deployment to your needs. 
+You can manually use Helm commands yourself.
 ```shell
 wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
 tar -xvf aqua.tar
@@ -133,7 +133,7 @@ helm install --namespace aqua csp ./aqua \
 			 --set global.aquaPassword=<aqua_password>
 ```
 
-## Step 4: Launch Aqua console
+## Step 5: Launch Aqua console
 Obtain the Aqua console URL by running the following command
 ```shell
 AQUA_CONSOLE=$(kubectl get svc csp-console-svc --namespace aqua -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
@@ -154,7 +154,7 @@ If you already have one, input the Aqua license or obtain the license by filling
 ## Appendix
 ### Create a new EKS cluster
 Creation of an EKS cluster can be simplified using eksctl commands: [https://eksctl.io/].
-<br>If you choose to use a separate EKS environment solely to host the Aqua CSP platform, then it is recommended that you create a private nodegroup in your EKS cluster and use a NAT gateway for communication.
+<br>If you choose to use a separate EKS environment solely to host the Aqua Enterprise platform, then it is recommended that you create a <i><b>private nodegroup</b></i> in your EKS cluster and use a <b>NAT gateway</b> for communication.
 <br>
 >Please note that you will have to create an EC2 Keypair if SSH access is desired for the nodes.
 ```shell

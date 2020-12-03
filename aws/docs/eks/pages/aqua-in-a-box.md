@@ -1,8 +1,12 @@
 # Launch Aqua in a box for EKS
 
 ## Overview
-Please note that this deployment scenario provides a starter environment that includes a database container for Postgres, leveraging a persistent volume to store data. This architecture is not scalable or resilient enough for production workloads, but extremely useful for evaluation.
+This deployment scenario provides a <b><i>starter environment</b></i> that includes a <b>database container for Postgres</b>, leveraging a persistent volume to store data. This architecture is not scalable or resilient enough for production workloads, but extremely useful for evaluation.
+
+Just follow these <b>4 SIMPLE STEPS</b> to get up and running.
+
 ![Deployment Scenario 1](../../../images/Deployment_Scenario1.png)
+
 
 ## Step 1: Configure Your EKS cluster
 Aqua can easily be launched into an existing EKS environment or you can [spin up a new one](#create-a-new-EKS-cluster). using [https://eksctl.io/]. 
@@ -72,7 +76,7 @@ export DB_PASSWORD=''
 ```
 
 ### Execute the script for IAM setup
-This script helps you set up the required IAM permissions required by Aqua Platform to run smoothly on Amazon EKS. 
+This script helps you set up the required <b>IAM permissions</b> required by Aqua Platform to run smoothly on Amazon EKS. 
 ```shell
 chmod +x helper_script.sh
 ./helper_script.sh init
@@ -82,15 +86,13 @@ chmod +x helper_script.sh
 ## Step 3: Deploy the Aqua Enterprise platform
 
 ### Deploy using the helper_script
-In addition, the script also helps you install the Aqua platform using Helm Charts.
 
 ```shell
 ./helper_script.sh install_aqua
 ```
 
 ### Deploy using manual Helm commands
-If you would rather deploy Aqua yourself using Helm commands, use the following instructions.
-The Aqua Helm chart exposes certain configuration values for tweaking the deployment to your needs. 
+You can manually use Helm commands yourself.
 ```shell
 wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
 tar -xvf aqua.tar
@@ -120,8 +122,7 @@ If you already have one, input the Aqua license or obtain the license by filling
 ## Appendix
 ### Create a new EKS cluster
 Creation of an EKS cluster can be simplified using eksctl commands: [https://eksctl.io/].
-<br>If you choose to use a separate EKS environment solely to host the Aqua CSP platform, then it is recommended that you create a private nodegroup in your EKS cluster and use a NAT gateway for communication.
-<br>
+<br>If you choose to use a separate EKS environment solely to host the Aqua Enterprise platform, then it is recommended that you create a <i><b>private nodegroup</b></i> in your EKS cluster and use a <b>NAT gateway</b> for communication.
 >Please note that you will have to create an EC2 Keypair if SSH access is desired for the nodes.
 ```shell
 eksctl create cluster --name aqua-cluster --region us-east-1 --zones us-east-1a,us-east-1b --nodegroup-name private-ng1 --nodes 2 --ssh-public-key <EC2_keypair> --node-private-networking --vpc-nat-mode HighlyAvailable
