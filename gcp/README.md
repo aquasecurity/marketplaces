@@ -53,7 +53,7 @@ Please grab the Aqua console URL and password using the Google cloud shell and t
 <b>GIF showing logging into Aqua console</b>
 <table>
 	<tr>
-		<td><img src="images/aqua-login.gif" /></td>
+		<td><img src="images/aqua-login.gif" width="1800"/></td>
 	</tr>
 </table>
 If you already have one, input the Aqua license or obtain the license by filling out the form linked on the Aqua Console startup portal. You can simply reach out to us at [cloudsales@aquasec.com](mailto:cloudsales@aquasec.com) and we’ll create one for you.<br /><br />
