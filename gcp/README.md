@@ -2,12 +2,6 @@
 
 ![Aqua platform](images/gcp-aqua-platform.png)
 
-<table>
-	<tr>
-		<td><img src="images/gcp-payg.gif" /></td>
-	</tr>
-</table>
-
 >Note: For guidance on registering additional Aqua Enforcers for Google Cloud GKE, please refer to [this](pages/Registering-additional-enforcers.md)
 
 
@@ -38,26 +32,33 @@ Before launching one of our products, you'll first need to subscribe to Aqua ent
 		</td>
 	</tr>
 </table>
-Check out the video to learn how to deploy Aqua Enterprise platform on a GKE cluster via the GCP marketplace.
-<video width="320" height="240" controls>
-  <source src="images/deploy-gcp.mp4" type="video/mp4">
-</video>
+<b>GIF showing how to get details for URL and password</b>
+<table>
+	<tr>
+		<td><img src="images/aqua-deploy.gif" /></td>
+	</tr>
+</table>
 
 
-
-
-## Step 3: Launch Aqua console
+## Step 3: Obtain Aqua credentials
 Please grab the Aqua console URL and password using the Google cloud shell and then navigate to it in your favorite browser.
 <b>GIF showing how to get details for URL and password</b>
 <table>
 	<tr>
-		<td><img src="images/aqua-gcp-console.gif" /></td>
+		<td><img src="images/aqua-credentials.gif" /></td>
 	</tr>
 </table>
 
+## Step 4: Launch Aqua console
+<b>GIF showing logging into Aqua console</b>
+<table>
+	<tr>
+		<td><img src="images/aqua-login.gif" /></td>
+	</tr>
+</table>
 If you already have one, input the Aqua license or obtain the license by filling out the form linked on the Aqua Console startup portal. You can simply reach out to us at [cloudsales@aquasec.com](mailto:cloudsales@aquasec.com) and we’ll create one for you.<br /><br />
 
-## Step 4: Scaling out Enforcers
+## Step 5: Scaling out Enforcers
 
 ### Within the cluster
 Aqua Enforcers are deployed as a Daemonset on the GKE cluster. When you scale out your cluster or add more node-pools, the Enforcers will automatically scale out with it and get registered with the Aqua console.
