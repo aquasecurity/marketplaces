@@ -27,7 +27,7 @@ Before launching one of our products, you'll first need to subscribe to Aqua ent
 </table>
 
 
-## Step 2: Configure Aqua enterprise platform on a GKE cluster
+## Step 2: Configure Aqua Enterprise platform on a GKE cluster
 
 <table>
 	<tr>
@@ -38,7 +38,13 @@ Before launching one of our products, you'll first need to subscribe to Aqua ent
 		</td>
 	</tr>
 </table>
-<b>GIF showing the Aqua app installation on GKE</b>
+Check out the video to learn how to deploy Aqua Enterprise platform on a GKE cluster via the GCP marketplace.
+<div align="center">
+  <video controls preload width=500 markdown="0"> 
+  <source src="https://github.com/aquasecurity/marketplaces/tree/master/gcp/images/deploy-gcp.mp4" type="video/quicktime">
+  </video>
+</div>
+
 
 ## Step 3: Launch Aqua console
 Please grab the Aqua console URL and password using the Google cloud shell and then navigate to it in your favorite browser.
