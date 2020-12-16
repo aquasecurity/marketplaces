@@ -35,7 +35,7 @@ Before launching one of our products, you'll first need to subscribe to Aqua ent
 <b>GIF showing how to get details for URL and password</b>
 <table>
 	<tr>
-		<td><img src="images/aqua-deploy.gif" /></td>
+		<td><img src="images/aqua-deploy.gif" width="1800" /></td>
 	</tr>
 </table>
 
@@ -45,7 +45,7 @@ Please grab the Aqua console URL and password using the Google cloud shell and t
 <b>GIF showing how to get details for URL and password</b>
 <table>
 	<tr>
-		<td><img src="images/aqua-credentials.gif" /></td>
+		<td><img src="images/aqua-credentials.gif" width="1800" /></td>
 	</tr>
 </table>
 
