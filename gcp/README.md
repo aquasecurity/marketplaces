@@ -40,9 +40,7 @@ Before launching one of our products, you'll first need to subscribe to Aqua ent
 </table>
 Check out the video to learn how to deploy Aqua Enterprise platform on a GKE cluster via the GCP marketplace.
 <div align="center">
-  <video controls preload width=500 markdown="0"> 
-  <source src="https://github.com/aquasecurity/marketplaces/tree/master/gcp/images/deploy-gcp.mp4" type="video/mp4">
-  </video>
+  ![deploy](deploy-gcp.mp4)
 </div>
 
 
