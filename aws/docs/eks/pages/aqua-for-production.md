@@ -62,7 +62,7 @@ wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
 tar -xvf aqua.tar
 
 helm install --namespace aqua csp ./aqua \
-                         --set global.imageTag="5.0-latest" \
+                         --set global.imageTag="5.3.21062" \
 			 --set global.awsRegion=<aws_region_for_eks> \
 			 --set global.ExternalDB="enabled" \
 			 --set global.ExternalDBHost=<rds_endpoint> \
