@@ -23,81 +23,21 @@ kubectl get nodes
 ```
 
 ## Step 2: Create a Service account with EKS IAM permissions
-Download and configure the [helper_script](../../../scripts/helper_script.sh). 
-
+This command helps you set up the required <b>IAM permissions</b> required by Aqua Platform to run smoothly on Amazon EKS. 
 ```shell
-wget https://aqua-security-public.s3.amazonaws.com/helper_script.sh
-```
-
-Configure the script for the following parameters, by downloading and editing the file:
-
-<table>
-	<tr>
-		<th width="23%"><strong>Parameter</strong></th>
-        <th width="25%"><strong>Default value</strong></th>
-		<th width="52%"><strong>Description</strong></th>
-	</tr>
-	<tr>
-		<td>ClusterName</td>
-        <td>aqua-cluster</td>
-		<td>The name of your EKS Cluster. Please note, the name must be all lowercase.</td>
-	</tr>
-	<tr>
-		<td>AWSRegion</td>
-        <td>us-east-1</td>
-		<td>The AWS Region of your EKS Cluster. Please note, the name must be all lowercase.</td>
-	</tr>
-	<tr>
-		<td>ProfileName</td>
-        <td>default</td>
-		<td>The name of your AWS profile set in the local $HOME/.aws/config file used by AWS CLI. Please note, the name must be all lowercase.</td>
-	</tr>
-	<tr>
-		<td>DBPassword</td>
-        <td></td>
-		<td>The password for the Aqua RDS Database for your deployment.</td>
-	</tr>
-	<tr>
-		<td>AquaPassword</td>
-        <td></td>
-		<td>The administrator password for your Aqua Web Console.</td>
-	</tr>
-</table>
-
-```shell
-export CLUSTER_NAME='aqua-cluster'
-export AWS_PROFILE='default'
-export AWS_REGION='us-east-1'
-export AQUA_PASSWORD=''
-
-# This parameter has to be populated for containerized PostGres DB Deployment
-export DB_PASSWORD=''
-
-```
-
-### Execute the script for IAM setup
-This script helps you set up the required <b>IAM permissions</b> required by Aqua Platform to run smoothly on Amazon EKS. 
-```shell
-chmod +x helper_script.sh
-./helper_script.sh init
-
+eksctl utils associate-iam-oidc-provider --cluster=<cluster_name> --approve [--profile=<profile>]
+eksctl create iamserviceaccount --name aqua-sa --namespace aqua --cluster <cluster_name> --attach-policy-arn arn:aws:iam::aws:policy/AWSMarketplaceMeteringRegisterUsage --approve [--profile <profile>]
 ```
 
 ## Step 3: Deploy the Aqua Enterprise platform
 
-### Deploy using the helper_script
-
-```shell
-./helper_script.sh install_aqua
-```
-
-### Deploy using manual Helm commands
 You can manually use Helm commands yourself.
 ```shell
 wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
 tar -xvf aqua.tar
 
 helm install --namespace aqua csp ./aqua \
+                         --set global.imageTag="5.0-latest" \
 			 --set global.awsRegion=<aws_region_for_eks> \
 			 --set global.dbPassword=<db_password> \
 			 --set global.aquaPassword=<aqua_password>
