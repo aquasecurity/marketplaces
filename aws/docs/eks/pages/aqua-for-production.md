@@ -73,8 +73,8 @@ helm chart export 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-sof
 Install the Aqua Helm chart:
 ```shell
 helm install csp --namespace aqua ./charts/aqua \
-			--set global.imageTag="5.3.21062" 
-			--set global.awsRegion=<aws_region_for_eks> 
+			--set global.imageTag="5.3.21062" \
+			--set global.awsRegion=<aws_region_for_eks> \
 			--set global.ExternalDB="enabled" \
 			--set global.ExternalDBHost=<rds_endpoint> \
 			--set global.dbExternalPassword=<db_password> \ 
