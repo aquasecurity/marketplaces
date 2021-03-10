@@ -31,17 +31,29 @@ eksctl create iamserviceaccount --name aqua-sa --namespace aqua --cluster <clust
 
 ## Step 3: Deploy the Aqua Enterprise platform
 
-You can manually use Helm commands yourself.
+You can retrieve the Helm chart from the ECR repository.
 ```shell
-wget https://aqua-security-public.s3.amazonaws.com/aqua.tar
-tar -xvf aqua.tar
+export HELM_EXPERIMENTAL_OCI=1
 
-helm install --namespace aqua csp ./aqua \
-                         --set global.imageTag="5.3.21062" \
-			 --set global.awsRegion=<aws_region_for_eks> \
-			 --set global.dbPassword=<db_password> \
-			 --set global.aquaPassword=<aqua_password>
+aws ecr get-login-password \
+	--region us-east-1 | helm registry login \
+	--username AWS \
+	--password-stdin 709825985650.dkr.ecr.us-east-1.amazonaws.com
+
+helm chart pull 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-software/aqua-helm:5.3.0
+
+helm chart export 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-software/aqua-helm:5.3.0 --destination ./charts
 ```
+
+Install the Aqua Helm chart:
+```shell
+helm install csp --namespace aqua ./charts/aqua \
+			--set global.imageTag="5.3.21062" \
+			--set global.awsRegion=<aws_region_for_eks> \
+			--set global.dbPassword=<db_password> \
+			--set global.aquaPassword=<admin_password>
+```
+
 ## Step 4: Launch Aqua console
 Obtain the Aqua console URL by running the following command
 ```shell
