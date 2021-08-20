@@ -31,13 +31,13 @@ echo $AQUA_GW
 
 ### Create an Enforcer Group in the Aqua Console for the new EKS Cluster
 Navigate to the Aqua Console and click on Administrator > Enforcers tab to add an Enforcer Group
-![Enforcer group](../../aws/images/create-enforcer-group)
+![Enforcer group](../../../images/create-enforcer-group)
 
 Add in the relevant details and make sure to take note of the Deployment Token that is added. Scroll to the bottom and click to Change the Audit Settings on this group.
-![Token](../../aws/images/token)
+![Token](../../../images/token)
 
 In the Settings, set everything to Enforce and enable the Host Images and Risk Explorer
-![Settings](../../aws/images/audit-settings)
+![Settings](../../../images/audit-settings)
 
 ## Step 2: Configure the EKS Cluster and Service account with EKS IAM permissions
 Configure the kubeconfig file for the new/additional EKS cluster that you want to register with Aqua on your local machine.
@@ -85,7 +85,7 @@ tar -xvf charts/aqua/charts/enforcer-5.3.tar -C charts/aqua/charts/
 
 Install the Aqua Helm chart:
 ```shell
-helm install csp --namespace aqua ./charts/aqua/charts/enforcer \
+helm install enforcers --namespace aqua ./charts/aqua/charts/enforcer \
     --set global.imageTag="6.2.21171" \
     --set global.awsRegion=<aws_region_for_eks> \
     --set global.externalGW=<AQUA_GW> \
@@ -95,6 +95,7 @@ helm install csp --namespace aqua ./charts/aqua/charts/enforcer \
 
 ## Step 4: Verify in the Aqua console
 Navigate to the Aqua console and go to Administrator > Enforcers and see if the connection was successful
+![Enforcer connection](../../../images/connection)
 
 ---
 Visit [aquasec.com](https://www.aquasec.com/) to learn more.
