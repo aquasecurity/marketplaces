@@ -22,6 +22,11 @@ Verify the node status
 kubectl get nodes
 ```
 
+Create the aqua namespace
+```shell
+kubectl create ns aqua
+```
+
 ## Step 2: Create a Service account with EKS IAM permissions
 This command helps you set up the required <b>IAM permissions</b> required by Aqua Platform to run smoothly on Amazon EKS. 
 ```shell
@@ -48,7 +53,7 @@ helm chart export 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-sof
 Install the Aqua Helm chart:
 ```shell
 helm install csp --namespace aqua ./charts/aqua \
-			--set global.imageTag="5.3.21062" \
+			--set global.imageTag="6.0.21083" \
 			--set global.awsRegion=<aws_region_for_eks> \
 			--set global.dbPassword=<db_password> \
 			--set global.aquaPassword=<admin_password>

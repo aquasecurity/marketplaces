@@ -20,6 +20,11 @@ Verify the node status
 kubectl get nodes
 ```
 
+Create the aqua namespace
+```shell
+kubectl create ns aqua
+```
+
 ## Step 2: Create Amazon RDS Postgres database
 Aqua recommends implementing a dedicated managed database like Amazon RDS for an enterprise-grade experience. 
 <table>
@@ -73,7 +78,7 @@ helm chart export 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-sof
 Install the Aqua Helm chart:
 ```shell
 helm install csp --namespace aqua ./charts/aqua \
-			--set global.imageTag="5.3.21062" \
+			--set global.imageTag="6.0.21083" \
 			--set global.awsRegion=<aws_region_for_eks> \
 			--set global.ExternalDB="enabled" \
 			--set global.ExternalDBHost=<rds_endpoint> \
