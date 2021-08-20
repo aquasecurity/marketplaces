@@ -40,7 +40,7 @@ In the Settings, set everything to Enforce and enable the Host Images and Risk E
 ![Settings](../../aws/images/audit-settings)
 
 ## Step 2: Configure the EKS Cluster and Service account with EKS IAM permissions
-Configure the kubeconfig file for your EKS cluster on your local machine.
+Configure the kubeconfig file for the new/additional EKS cluster that you want to register with Aqua on your local machine.
 ```shell
 eksctl utils write-kubeconfig --cluster=<name> [--kubeconfig=<path>][--profile=<profile>][--set-kubeconfig-context=<bool>]
 ```
@@ -79,9 +79,8 @@ helm chart export 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-sof
 
 Extract the Enforcer subchart for install
 ```shell
-cd charts/aqua/charts
-gzip -d enforcer-5.3.tgz
-tar -xvf enforcer.tar
+gzip -d charts/aqua/charts/enforcer-5.3.tgz
+tar -xvf charts/aqua/charts/enforcer-5.3.tar -C charts/aqua/charts/
 ```
 
 Install the Aqua Helm chart:
@@ -89,7 +88,7 @@ Install the Aqua Helm chart:
 helm install csp --namespace aqua ./charts/aqua/charts/enforcer \
     --set global.imageTag="6.2.21171" \
     --set global.awsRegion=<aws_region_for_eks> \
-    --set global.externalGW=$AQUA_GW \
+    --set global.externalGW=<AQUA_GW> \
     --set global.enforcerToken=<token> \
     --set global.imageCredentials.registry=709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-software
 ```
