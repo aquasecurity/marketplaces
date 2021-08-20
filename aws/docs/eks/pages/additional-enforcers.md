@@ -31,13 +31,13 @@ echo $AQUA_GW
 
 ### Create an Enforcer Group in the Aqua Console for the new EKS Cluster
 Navigate to the Aqua Console and click on Administrator > Enforcers tab to add an Enforcer Group
-![Enforcer group](../../../images/create-enforcer-group)
+![Enforcer group](../../../images/create-enforcer-group.png)
 
 Add in the relevant details and make sure to take note of the Deployment Token that is added. Scroll to the bottom and click to Change the Audit Settings on this group.
-![Token](../../../images/token)
+![Token](../../../images/token.png)
 
 In the Settings, set everything to Enforce and enable the Host Images and Risk Explorer
-![Settings](../../../images/audit-settings)
+![Settings](../../../images/audit-settings.png)
 
 ## Step 2: Configure the EKS Cluster and Service account with EKS IAM permissions
 Configure the kubeconfig file for the new/additional EKS cluster that you want to register with Aqua on your local machine.
@@ -95,7 +95,7 @@ helm install enforcers --namespace aqua ./charts/aqua/charts/enforcer \
 
 ## Step 4: Verify in the Aqua console
 Navigate to the Aqua console and go to Administrator > Enforcers and see if the connection was successful
-![Enforcer connection](../../../images/connection)
+![Enforcer connection](../../../images/connection.png)
 
 ---
 Visit [aquasec.com](https://www.aquasec.com/) to learn more.
