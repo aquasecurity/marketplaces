@@ -45,9 +45,7 @@ aws ecr get-login-password \
 	--username AWS \
 	--password-stdin 709825985650.dkr.ecr.us-east-1.amazonaws.com
 
-helm chart pull 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-software/aqua-helm:5.3.0
-
-helm chart export 709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-software/aqua-helm:5.3.0 --destination ./charts
+helm pull oci://709825985650.dkr.ecr.us-east-1.amazonaws.com/aqua-security-software/aqua-helm --version 5.3.0
 ```
 
 Install the Aqua Helm chart:
